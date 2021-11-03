@@ -4,16 +4,17 @@ const OrdersService = require('../services/orders');
 const router = express.Router();
 const service = new OrdersService();
 
-router.get('/', async (request, response) => {
+router.post('/', async (request, response) => {
   try {
-    const ordersQuantity = await service.findFulfillmentOrders();
-    response.send({
-      orders: ordersQuantity,
+    const body = request.body;
+    const response = await service.init(body);
+    response.status(200).send({
+      response: response,
     });
   } catch (error) {
     response.json({
       message: error.message,
-    })
+    });
   }
 });
 
